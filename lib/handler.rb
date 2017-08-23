@@ -26,7 +26,8 @@ module JekyllLilyPondConverter
     end
 
     def generate_lily_image(lily)
-      `bin/run-lilypond.sh #{lily.code_filename} #{lily.image_filename}`
+      system("lily", "-dbackend=svg", lily.code_filename)
+      system("rm", lily.code_filename)
     end
 
     def replace_snippet_with_image_link(lily)
