@@ -2,6 +2,8 @@ require "jekyll"
 
 module Jekyll
   class LilyPondConverter < Converter
+    priority :high
+
     def matches(ext)
       /md|markdown/.match?(ext)
     end
