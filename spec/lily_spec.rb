@@ -1,5 +1,4 @@
-require "rspec"
-require "./lib/lily"
+require "spec_helper"
 
 describe JekyllLilyPondConverter::Lily do
   let(:snippet) {

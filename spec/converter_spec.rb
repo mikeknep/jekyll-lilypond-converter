@@ -1,5 +1,4 @@
-require "rspec"
-require "./lib/converter"
+require "spec_helper"
 
 describe Jekyll::LilyPondConverter do
   let(:converter) { described_class.new }

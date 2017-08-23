@@ -1,6 +1,4 @@
-require "rspec"
-require "./lib/site_manager"
-require "./lib/generator"
+require "spec_helper"
 
 describe Jekyll::LilyPondGenerator do
   let(:generator) { described_class.new }
