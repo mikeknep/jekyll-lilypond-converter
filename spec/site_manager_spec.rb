@@ -12,7 +12,7 @@ describe JekyllLilyPondConverter::SiteManager do
     expect(Jekyll::StaticFile).to receive(:new).with(
       mock_site,
       mock_site.source,
-      "",
+      "lily_images",
       image_filename
     ).and_return(mock_static_file)
 

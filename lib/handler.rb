@@ -7,6 +7,8 @@ module JekyllLilyPondConverter
     end
 
     def execute
+      setup_lily_images_directory
+
       lilies.each do |lily|
         write_lily_code_file(lily)
         generate_lily_image(lily)
@@ -20,6 +22,11 @@ module JekyllLilyPondConverter
     private
     attr_reader :content
 
+    def setup_lily_images_directory
+      system("rm", "-rf", "lily_images/")
+      system("mkdir", "lily_images/")
+    end
+
     def write_lily_code_file(lily)
       open(lily.code_filename, 'w') do |code_file|
         code_file.puts(lily.code)
@@ -28,6 +35,7 @@ module JekyllLilyPondConverter
 
     def generate_lily_image(lily)
       system("lily", "-dbackend=svg", lily.code_filename)
+      system("mv", lily.image_filename, "lily_images/")
       system("rm", lily.code_filename)
     end
 

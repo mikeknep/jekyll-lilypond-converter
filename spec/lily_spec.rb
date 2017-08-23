@@ -27,7 +27,7 @@ SNIPPET
 
   describe "#image_link" do
     it "returns a markdown inline-image link" do
-      expect(lily.image_link).to eq("![](images/123.svg)\n")
+      expect(lily.image_link).to eq("![](lily_images/123.svg)\n")
     end
   end
 
