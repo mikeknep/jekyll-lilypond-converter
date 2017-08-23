@@ -1,25 +1,49 @@
-require "rspec"
-require "./lib/handler"
+require "spec_helper"
 
 describe JekyllLilyPondConverter::Handler do
   describe "#execute" do
+    let(:svg1) { double(:svg1) }
+    let(:svg2) { double(:svg2) }
+
+    before(:each) do
+      allow(SecureRandom).to receive(:uuid).and_return("uuid1", "uuid2")
+      mock_jekyll_site = MockJekyllSite.new
+      JekyllLilyPondConverter::SiteManager.instance.site = mock_jekyll_site
+      allow(Jekyll::StaticFile).to receive(:new).with(
+        mock_jekyll_site,
+        mock_jekyll_site.source,
+        "",
+        "uuid1.svg"
+      ).and_return(svg1)
+      allow(Jekyll::StaticFile).to receive(:new).with(
+        mock_jekyll_site,
+        mock_jekyll_site.source,
+        "",
+        "uuid2.svg"
+      ).and_return(svg2)
+    end
+
     after(:each) { `rm *.svg` }
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
-        allow(SecureRandom).to receive(:uuid).and_return("uuid1", "uuid2")
         handler = described_class.new(Content_with_lily_snippets)
         handler.execute
 
         expect(File.exist?("uuid1.svg")).to eq(true)
         expect(File.exist?("uuid2.svg")).to eq(true)
       end
+
+      it "adds the lily images to the site's static file collection" do
+        handler = described_class.new(Content_with_lily_snippets)
+        handler.execute
+
+        expect(JekyllLilyPondConverter::SiteManager.instance.site.static_files).to eq([svg1, svg2])
+      end
     end
 
     context "modifying content" do
       it "replaces lily code snippets with links to generated SVG files" do
-        allow(SecureRandom).to receive(:uuid).and_return("uuid1", "uuid2")
-
         handler = described_class.new(Content_with_lily_snippets)
 
         expect(handler.execute).to eq(Content_with_lily_image_links)

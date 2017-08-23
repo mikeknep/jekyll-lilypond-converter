@@ -10,6 +10,7 @@ module JekyllLilyPondConverter
       lilies.each do |lily|
         write_lily_code_file(lily)
         generate_lily_image(lily)
+        add_lily_image_to_site(lily)
         replace_snippet_with_image_link(lily)
       end
 
@@ -28,6 +29,10 @@ module JekyllLilyPondConverter
     def generate_lily_image(lily)
       system("lily", "-dbackend=svg", lily.code_filename)
       system("rm", lily.code_filename)
+    end
+
+    def add_lily_image_to_site(lily)
+      JekyllLilyPondConverter::SiteManager.instance.add_image(lily.image_filename)
     end
 
     def replace_snippet_with_image_link(lily)
