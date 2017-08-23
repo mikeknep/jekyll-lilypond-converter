@@ -3,8 +3,7 @@ require "./lib/handler"
 
 describe JekyllLilyPondConverter::Handler do
   describe "#execute" do
-    before(:each) { `mkdir images/` }
-    after(:each) { `rm -rf images/` }
+    after(:each) { `rm *.svg` }
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
@@ -12,8 +11,8 @@ describe JekyllLilyPondConverter::Handler do
         handler = described_class.new(Content_with_lily_snippets)
         handler.execute
 
-        expect(File.exist?("images/uuid1.svg")).to eq(true)
-        expect(File.exist?("images/uuid2.svg")).to eq(true)
+        expect(File.exist?("uuid1.svg")).to eq(true)
+        expect(File.exist?("uuid2.svg")).to eq(true)
       end
     end
 
