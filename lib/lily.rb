@@ -16,7 +16,7 @@ module JekyllLilyPondConverter
     end
 
     def image_link
-      "![](images/#{image_filename})\n"
+      "![](lily_images/#{image_filename})\n"
     end
 
     def code

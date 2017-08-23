@@ -11,7 +11,7 @@ module JekyllLilyPondConverter
       site.static_files << Jekyll::StaticFile.new(
         site,
         site.source,
-        "",
+        "lily_images",
         filename
       )
     end

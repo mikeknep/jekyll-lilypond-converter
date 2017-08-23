@@ -12,26 +12,27 @@ describe JekyllLilyPondConverter::Handler do
       allow(Jekyll::StaticFile).to receive(:new).with(
         mock_jekyll_site,
         mock_jekyll_site.source,
-        "",
+        "lily_images",
         "uuid1.svg"
       ).and_return(svg1)
       allow(Jekyll::StaticFile).to receive(:new).with(
         mock_jekyll_site,
         mock_jekyll_site.source,
-        "",
+        "lily_images",
         "uuid2.svg"
       ).and_return(svg2)
     end
 
-    after(:each) { `rm *.svg` }
+    before(:each) { `mkdir lily_images/` }
+    after(:each) { `rm -rf lily_images/` }
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
         handler = described_class.new(Content_with_lily_snippets)
         handler.execute
 
-        expect(File.exist?("uuid1.svg")).to eq(true)
-        expect(File.exist?("uuid2.svg")).to eq(true)
+        expect(File.exist?("lily_images/uuid1.svg")).to eq(true)
+        expect(File.exist?("lily_images/uuid2.svg")).to eq(true)
       end
 
       it "adds the lily images to the site's static file collection" do
@@ -83,11 +84,11 @@ EOC
 Content_with_lily_image_links = <<-EOC
 C major.
 
-![](images/uuid1.svg)
+![](lily_images/uuid1.svg)
 
 C minor.
 
-![](images/uuid2.svg)
+![](lily_images/uuid2.svg)
 
 End
 EOC
