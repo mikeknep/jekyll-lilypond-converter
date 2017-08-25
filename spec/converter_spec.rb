@@ -32,16 +32,4 @@ describe Jekyll::LilyPondConverter do
       expect(handler_spy.execute_was_called).to eq(true)
     end
   end
-
-  class HandlerSpy
-    attr_reader :execute_was_called
-
-    def initialize
-      @execute_was_called = false
-    end
-
-    def execute
-      @execute_was_called = true
-    end
-  end
 end
