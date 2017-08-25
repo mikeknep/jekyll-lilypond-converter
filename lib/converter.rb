@@ -13,7 +13,9 @@ module Jekyll
     end
 
     def convert(content)
-      ::JekyllLilyPondConverter::Handler.new(content).execute
+      naming_policy = ::JekyllLilyPondConverter::NamingPolicy.new
+
+      ::JekyllLilyPondConverter::Handler.new(content, naming_policy).execute
     end
   end
 end
