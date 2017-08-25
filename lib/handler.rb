@@ -7,25 +7,17 @@ module JekyllLilyPondConverter
     end
 
     def execute
-      setup_lily_images_directory
-
       lilies.each do |lily|
         write_lily_code_file(lily)
         generate_lily_image(lily)
         add_lily_image_to_site(lily)
         replace_snippet_with_image_link(lily)
       end
-
       content
     end
 
     private
     attr_reader :content
-
-    def setup_lily_images_directory
-      system("rm", "-rf", "lily_images/")
-      system("mkdir", "lily_images/")
-    end
 
     def write_lily_code_file(lily)
       open(lily.code_filename, 'w') do |code_file|
