@@ -16,7 +16,7 @@ describe JekyllLilyPondConverter::Handler do
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new)
+        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
         handler.execute
 
         expect(File.exist?("lily_images/uuid1.svg")).to eq(true)
@@ -24,7 +24,7 @@ describe JekyllLilyPondConverter::Handler do
       end
 
       it "adds the lily images to the site's static file collection" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new)
+        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
         handler.execute
 
         expect(JekyllLilyPondConverter::SiteManager.instance.site.static_files).to eq([svg1, svg2])
@@ -33,13 +33,13 @@ describe JekyllLilyPondConverter::Handler do
 
     context "modifying content" do
       it "replaces lily code snippets with links to generated SVG files" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new)
+        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
 
         expect(handler.execute).to eq(content_with_lily_image_links)
       end
 
       it "does not affect content with non-lily code snippets" do
-        handler = described_class.new(content_with_ruby_snippet, MockNamingPolicy.new)
+        handler = described_class.new(content_with_ruby_snippet, MockNamingPolicy.new, "svg")
 
         expect(handler.execute).to eq(content_with_ruby_snippet)
       end

@@ -25,7 +25,9 @@ describe Jekyll::LilyPondConverter do
       content = "abc"
       handler_spy = HandlerSpy.new
 
-      allow(JekyllLilyPondConverter::Handler).to receive(:new).with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy)).and_return(handler_spy)
+      allow(JekyllLilyPondConverter::Handler).to receive(:new).
+        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "svg").
+        and_return(handler_spy)
 
       converter.convert(content)
 

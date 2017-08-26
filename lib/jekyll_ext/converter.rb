@@ -15,7 +15,7 @@ module Jekyll
     def convert(content)
       naming_policy = ::JekyllLilyPondConverter::NamingPolicy.new
 
-      ::JekyllLilyPondConverter::Handler.new(content, naming_policy).execute
+      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, "svg").execute
     end
   end
 end

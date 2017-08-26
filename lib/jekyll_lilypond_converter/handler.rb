@@ -2,9 +2,10 @@ require "securerandom"
 
 module JekyllLilyPondConverter
   class Handler
-    def initialize(content, naming_policy)
+    def initialize(content, naming_policy, image_format)
       @content = content
       @naming_policy = naming_policy
+      @image_format = image_format
     end
 
     def execute
@@ -18,7 +19,7 @@ module JekyllLilyPondConverter
     end
 
     private
-    attr_reader :content, :naming_policy
+    attr_reader :content, :naming_policy, :image_format
 
     def write_lily_code_file(lily)
       open(lily.code_filename, 'w') do |code_file|
@@ -42,7 +43,7 @@ module JekyllLilyPondConverter
 
     def lilies
       lily_snippets.map do |snippet|
-        Lily.new(naming_policy.generate_name, "svg", snippet)
+        Lily.new(naming_policy.generate_name, image_format, snippet)
       end
     end
 
