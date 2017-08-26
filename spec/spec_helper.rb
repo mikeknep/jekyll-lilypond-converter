@@ -47,19 +47,13 @@ class HandlerSpy
 end
 
 
-def stub_jekyll_static_file_instantiation
+def stub_jekyll_static_file_instantiation(filename, mock_file)
   allow(Jekyll::StaticFile).to receive(:new).with(
     mock_jekyll_site,
     mock_jekyll_site.source,
     "lily_images",
-    "uuid1.svg"
-  ).and_return(svg1)
-  allow(Jekyll::StaticFile).to receive(:new).with(
-    mock_jekyll_site,
-    mock_jekyll_site.source,
-    "lily_images",
-    "uuid2.svg"
-  ).and_return(svg2)
+    filename
+  ).and_return(mock_file)
 end
 
 def content_with_lily_snippets

@@ -28,7 +28,7 @@ module JekyllLilyPondConverter
     end
 
     def generate_lily_image(lily)
-      system("lily", "-dbackend=svg", lily.code_filename)
+      system("lily", lilypond_output_format_option, lily.code_filename)
       system("mv", lily.image_filename, "lily_images/")
       system("rm", lily.code_filename)
     end
@@ -49,6 +49,10 @@ module JekyllLilyPondConverter
 
     def lily_snippets
       content.scan(/```lily.+?```\n/m)
+    end
+
+    def lilypond_output_format_option
+      image_format == "png" ? "--png" : "-dbackend=svg"
     end
   end
 end
