@@ -1,3 +1,4 @@
+require "jekyll_lilypond_converter/errors"
 require "jekyll_lilypond_converter/lily"
 require "jekyll_lilypond_converter/handler"
 require "jekyll_lilypond_converter/site_manager"
