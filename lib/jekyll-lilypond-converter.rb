@@ -1,5 +1,6 @@
 require "lily"
 require "handler"
 require "site_manager"
+require "naming_policy"
 require "converter"
 require "generator"
