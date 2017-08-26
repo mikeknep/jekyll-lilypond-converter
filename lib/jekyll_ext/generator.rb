@@ -17,7 +17,7 @@ module Jekyll
 
     def remove_stale_lily_image_references(site)
       site.static_files.reject! do |static_file|
-        /lily_images\/.*\.svg/.match?(static_file.path)
+        /lily_images\/.*\.(svg|png)/.match?(static_file.path)
       end
     end
   end

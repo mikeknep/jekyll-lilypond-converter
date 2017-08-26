@@ -23,9 +23,10 @@ describe Jekyll::LilyPondGenerator do
   end
 
   it "removes stale lily image references from the Jekyll site" do
-    stale_lily_file = double(:stale_lily_file, path: "/Users/foo/project/lily_images/abcde.svg")
+    stale_lily_svg = double(:stale_lily_svg, path: "/Users/foo/project/lily_images/abcde.svg")
+    stale_lily_png = double(:stale_lily_png, path: "/Users/foo/project/lily_images/abcde.png")
     other_static_file = double(:other_static_file, path: "/Users/foo/project/images/foo.jpg")
-    site = MockJekyllSite.new(static_files: [stale_lily_file, other_static_file])
+    site = MockJekyllSite.new(static_files: [stale_lily_svg, stale_lily_png, other_static_file])
     generator.generate(site)
 
     expect(site.static_files).to eq([other_static_file])
