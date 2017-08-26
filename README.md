@@ -6,6 +6,7 @@ Add `lily` code blocks to your markdown blog post and automatically convert the 
 
 - [Install LilyPond][] and ensure the `lily` executable is on your `$PATH`
 - Add this gem to your Jekyll-based static site repository's Gemfile
+- Add `lily_images/` to your `.gitignore`
 - Add the converter to your `_config.yml` file:
 
       gems:
