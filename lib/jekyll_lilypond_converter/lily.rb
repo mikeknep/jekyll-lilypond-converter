@@ -2,8 +2,9 @@ module JekyllLilyPondConverter
   class Lily
     attr_reader :snippet
 
-    def initialize(id, snippet)
+    def initialize(id, extension, snippet)
       @id = id
+      @extension = extension
       @snippet = snippet
     end
 
@@ -12,7 +13,7 @@ module JekyllLilyPondConverter
     end
 
     def image_filename
-      "#{id}.svg"
+      "#{id}.#{extension}"
     end
 
     def image_link
@@ -24,7 +25,7 @@ module JekyllLilyPondConverter
     end
 
     private
-    attr_reader :id
+    attr_reader :id, :extension
 
     def strip_delimiters(snippet)
       snippet.gsub(/```lily\n/, "").gsub(/```\n/, "")

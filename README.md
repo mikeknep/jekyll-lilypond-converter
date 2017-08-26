@@ -12,6 +12,10 @@ Add `lily` code blocks to your markdown blog post and automatically convert the 
       gems:
       - jekyll-lilypond-converter
 
+- (Optional) specify LilyPond image format in `_config.yml` (default is `svg`, alternative option is `png`)
+
+      lilypond-image-format: png
+
 - Add lily code to a markdown post:
 
       This is a C major chord:

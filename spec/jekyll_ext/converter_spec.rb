@@ -21,15 +21,39 @@ describe Jekyll::LilyPondConverter do
   end
 
   describe "#convert" do
-    it "delegates to a JekyllLilyPondConverter::Handler" do
+    it "delegates to a JekyllLilyPondConverter::Handler with svg image format" do
       content = "abc"
       handler_spy = HandlerSpy.new
 
-      allow(JekyllLilyPondConverter::Handler).to receive(:new).with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy)).and_return(handler_spy)
+      allow(JekyllLilyPondConverter::Handler).to receive(:new).
+        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "svg").
+        and_return(handler_spy)
 
       converter.convert(content)
 
       expect(handler_spy.execute_was_called).to eq(true)
+    end
+
+    it "passes png image format to handler when config is overwritten" do
+      content = "abc"
+      handler_spy = HandlerSpy.new
+      config = { "lilypond-image-format" => "png" }
+
+      allow(JekyllLilyPondConverter::Handler).to receive(:new).
+        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "png").
+        and_return(handler_spy)
+
+      described_class.new(config).convert(content)
+
+      expect(handler_spy.execute_was_called).to eq(true)
+    end
+
+    it "does not accept image formats other than png and svg" do
+      config = { "lilypond-image-format" => "jpeg" }
+
+      expect {
+        described_class.new(config).convert("abc")
+      }.to raise_error(::JekyllLilyPondConverter::INVALID_IMAGE_FORMAT_ERROR)
     end
   end
 end
