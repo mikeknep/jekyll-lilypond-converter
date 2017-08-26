@@ -11,7 +11,7 @@ describe JekyllLilyPondConverter::Lily do
 SNIPPET
   }
 
-  let(:lily) { described_class.new("123", snippet) }
+  let(:lily) { described_class.new("123", "svg", snippet) }
 
   describe "#code_filename" do
     it "uses the given id and a .ly extension" do
@@ -20,7 +20,7 @@ SNIPPET
   end
 
   describe "#image_filename" do
-    it "uses the given id and a .svg extension" do
+    it "uses the given id and extension" do
       expect(lily.image_filename).to eq("123.svg")
     end
   end

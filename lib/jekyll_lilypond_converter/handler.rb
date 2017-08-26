@@ -42,7 +42,7 @@ module JekyllLilyPondConverter
 
     def lilies
       lily_snippets.map do |snippet|
-        Lily.new(naming_policy.generate_name, snippet)
+        Lily.new(naming_policy.generate_name, "svg", snippet)
       end
     end
 
