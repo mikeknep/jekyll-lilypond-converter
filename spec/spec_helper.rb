@@ -1,7 +1,7 @@
 require "rspec"
 require "jekyll"
 
-Dir["./lib/*.rb"].each { |file| require file }
+Dir["./lib/**/*.rb"].each { |file| require file }
 
 RSpec.configure do |config|
   config.before(:each) do
