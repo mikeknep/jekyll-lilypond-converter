@@ -89,11 +89,11 @@ def content_with_lily_image_links
 <<-EOC
 C major.
 
-![](lily_images/uuid1.svg)
+![](/lily_images/uuid1.svg)
 
 C minor.
 
-![](lily_images/uuid2.svg)
+![](/lily_images/uuid2.svg)
 
 End
 EOC
