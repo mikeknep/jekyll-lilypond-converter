@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Jekyll::LilyPondGenerator do
   let(:generator) { described_class.new }
-  let(:site) { double(:jekyll_site) }
+  let(:site) { MockJekyllSite.new }
 
   after { system("rm", "-rf", "lily_images") }
 
@@ -20,5 +20,14 @@ describe Jekyll::LilyPondGenerator do
 
     expect(File.exists?("lily_images/foo")).to eq(false)
     expect(Dir.exists?("lily_images")).to eq(true)
+  end
+
+  it "removes stale lily image references from the Jekyll site" do
+    stale_lily_file = double(:stale_lily_file, path: "/Users/foo/project/lily_images/abcde.svg")
+    other_static_file = double(:other_static_file, path: "/Users/foo/project/images/foo.jpg")
+    site = MockJekyllSite.new(static_files: [stale_lily_file, other_static_file])
+    generator.generate(site)
+
+    expect(site.static_files).to eq([other_static_file])
   end
 end

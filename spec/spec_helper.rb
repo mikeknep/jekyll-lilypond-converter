@@ -13,8 +13,8 @@ end
 class MockJekyllSite < Jekyll::Site
   attr_accessor :static_files
 
-  def initialize
-    @static_files = []
+  def initialize(static_files: [])
+    @static_files = static_files
   end
 
   def source
