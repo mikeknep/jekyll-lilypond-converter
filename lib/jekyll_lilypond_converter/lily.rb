@@ -28,7 +28,7 @@ module JekyllLilyPondConverter
     attr_reader :id, :extension
 
     def strip_delimiters(snippet)
-      snippet.gsub(/```lily\n/, "").gsub(/```\n/, "")
+      snippet.gsub(/```lilypond\n/, "").gsub(/```\n/, "")
     end
   end
 end

@@ -3,7 +3,7 @@ require "spec_helper"
 describe JekyllLilyPondConverter::Lily do
   let(:snippet) {
 <<-SNIPPET
-```lily
+```lilypond
 \\relative {
 <c' e g>
 }

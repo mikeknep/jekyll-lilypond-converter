@@ -28,7 +28,7 @@ module JekyllLilyPondConverter
     end
 
     def generate_lily_image(lily)
-      system("lily", lilypond_output_format_option, lily.code_filename)
+      system("lilypond", lilypond_output_format_option, lily.code_filename)
       system("mv", lily.image_filename, "lily_images/")
       system("rm", lily.code_filename)
     end
@@ -48,7 +48,7 @@ module JekyllLilyPondConverter
     end
 
     def lily_snippets
-      content.scan(/```lily.+?```\n/m)
+      content.scan(/```lilypond.+?```\n/m)
     end
 
     def lilypond_output_format_option

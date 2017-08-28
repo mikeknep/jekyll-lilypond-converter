@@ -60,7 +60,7 @@ def content_with_lily_snippets
 <<-EOC
 C major.
 
-```lily
+```lilypond
 \\relative {
 <c' e g>
 }
@@ -68,7 +68,7 @@ C major.
 
 C minor.
 
-```lily
+```lilypond
 \\relative {
 <c' ees g>
 }
