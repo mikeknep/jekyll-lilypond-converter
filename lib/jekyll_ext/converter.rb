@@ -28,7 +28,7 @@ module Jekyll
         naming_policy: ::JekyllLilyPondConverter::NamingPolicy.new,
         image_format: image_format,
         site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
-        static_file_builder: StaticFileBuilder
+        static_file_builder: Jekyll::LilyPondStaticFileBuilder
       ).execute
     end
 

@@ -1,6 +1,6 @@
 require "rspec"
 
-describe StaticFileBuilder do
+describe Jekyll::LilyPondStaticFileBuilder do
   let(:mock_site) { double(:mock_site, source: "source") }
   let(:mock_static_file) { double(:mock_static_file) }
   let(:image_filename) { "lily.svg" }

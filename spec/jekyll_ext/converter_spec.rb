@@ -43,7 +43,7 @@ describe Jekyll::LilyPondConverter do
           naming_policy: instance_of(::JekyllLilyPondConverter::NamingPolicy),
           image_format: "svg",
           site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
-          static_file_builder: StaticFileBuilder
+          static_file_builder: Jekyll::LilyPondStaticFileBuilder
         }).and_return(handler_spy)
 
       converter.convert(content)
@@ -62,7 +62,7 @@ describe Jekyll::LilyPondConverter do
           naming_policy: instance_of(::JekyllLilyPondConverter::NamingPolicy),
           image_format: "png",
           site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
-          static_file_builder: StaticFileBuilder
+          static_file_builder: Jekyll::LilyPondStaticFileBuilder
         }).and_return(handler_spy)
 
       described_class.new(config).convert(content)
