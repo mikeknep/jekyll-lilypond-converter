@@ -1,5 +1,17 @@
 require "spec_helper"
 
+class HandlerSpy
+  attr_reader :execute_was_called
+
+  def initialize
+    @execute_was_called = false
+  end
+
+  def execute
+    @execute_was_called = true
+  end
+end
+
 describe Jekyll::LilyPondConverter do
   let(:converter) { described_class.new }
 
@@ -26,8 +38,13 @@ describe Jekyll::LilyPondConverter do
       handler_spy = HandlerSpy.new
 
       allow(JekyllLilyPondConverter::Handler).to receive(:new).
-        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "svg").
-        and_return(handler_spy)
+        with({
+          content: content,
+          naming_policy: instance_of(::JekyllLilyPondConverter::NamingPolicy),
+          image_format: "svg",
+          site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
+          static_file_builder: Jekyll::LilyPondStaticFileBuilder
+        }).and_return(handler_spy)
 
       converter.convert(content)
 
@@ -40,8 +57,13 @@ describe Jekyll::LilyPondConverter do
       config = { "lilypond-image-format" => "png" }
 
       allow(JekyllLilyPondConverter::Handler).to receive(:new).
-        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "png").
-        and_return(handler_spy)
+        with({
+          content: content,
+          naming_policy: instance_of(::JekyllLilyPondConverter::NamingPolicy),
+          image_format: "png",
+          site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
+          static_file_builder: Jekyll::LilyPondStaticFileBuilder
+        }).and_return(handler_spy)
 
       described_class.new(config).convert(content)
 

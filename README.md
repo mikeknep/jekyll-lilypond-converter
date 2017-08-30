@@ -20,7 +20,7 @@ Add `lily` code blocks to your markdown blog post and automatically convert the 
 
       This is a C major chord:
 
-      ```lily
+      ```lilypond
       \relative {
         <c' e g>
       }

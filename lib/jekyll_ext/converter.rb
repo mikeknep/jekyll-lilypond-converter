@@ -21,14 +21,22 @@ module Jekyll
     end
 
     def convert(content)
-      naming_policy = ::JekyllLilyPondConverter::NamingPolicy.new
-      image_format = @config["lilypond-image-format"]
       ensure_valid_image_format(image_format)
 
-      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, image_format).execute
+      ::JekyllLilyPondConverter::Handler.new(
+        content: content,
+        naming_policy: ::JekyllLilyPondConverter::NamingPolicy.new,
+        image_format: image_format,
+        site_manager: ::JekyllLilyPondConverter::SiteManager.instance,
+        static_file_builder: Jekyll::LilyPondStaticFileBuilder
+      ).execute
     end
 
     private
+
+    def image_format
+      @config["lilypond-image-format"]
+    end
 
     def ensure_valid_image_format(image_format)
       unless ["svg", "png"].include?(image_format)

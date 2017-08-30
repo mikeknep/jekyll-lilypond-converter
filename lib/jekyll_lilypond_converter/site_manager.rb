@@ -1,4 +1,3 @@
-require "jekyll"
 require "singleton"
 
 module JekyllLilyPondConverter
@@ -7,13 +6,8 @@ module JekyllLilyPondConverter
 
     attr_accessor :site
 
-    def add_image(filename)
-      site.static_files << Jekyll::StaticFile.new(
-        site,
-        site.source,
-        "lily_images",
-        filename
-      )
+    def add_image(builder, filename)
+      site.static_files << builder.build(site, filename)
     end
 
   end

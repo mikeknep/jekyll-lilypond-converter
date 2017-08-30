@@ -1,58 +1,83 @@
 require "spec_helper"
 
+class MockSiteManager
+  attr_reader :static_files
+
+  def initialize
+    @static_files = []
+  end
+
+  def add_image(builder, filename)
+    @static_files << filename
+  end
+end
+
+class MockNamingPolicy
+  def initialize
+    @names = ["uuid1", "uuid2"]
+  end
+
+  def generate_name
+    @names.shift
+  end
+end
+
 describe JekyllLilyPondConverter::Handler do
   describe "#execute" do
-    let(:svg1) { double(:svg1) }
-    let(:svg2) { double(:svg2) }
-    let(:mock_jekyll_site) { MockJekyllSite.new }
+    let(:content) { content_with_lily_snippets }
+    let(:naming_policy) { MockNamingPolicy.new }
+    let(:image_format) { "svg" }
+    let(:site_manager) { MockSiteManager.new }
+    let(:static_file_builder) { MockStaticFileBuilder }
 
-    before(:each) do
-      JekyllLilyPondConverter::SiteManager.instance.site = mock_jekyll_site
-      stub_jekyll_static_file_instantiation("uuid1.svg", svg1)
-      stub_jekyll_static_file_instantiation("uuid2.svg", svg2)
-      `mkdir lily_images/`
-    end
+    let(:handler) { described_class.new(
+      content: content,
+      naming_policy: naming_policy,
+      image_format: image_format,
+      site_manager: site_manager,
+      static_file_builder: static_file_builder
+    ) }
 
+    before(:each) { `mkdir lily_images/` }
     after(:each) { `rm -rf lily_images/` }
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
         handler.execute
 
         expect(File.exist?("lily_images/uuid1.svg")).to eq(true)
         expect(File.exist?("lily_images/uuid2.svg")).to eq(true)
       end
 
-      it "generates PNG files with lilypond for all lily code snippets" do
-        stub_jekyll_static_file_instantiation("uuid1.png", double(:png1))
-        stub_jekyll_static_file_instantiation("uuid2.png", double(:png2))
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "png")
-        handler.execute
+      context "when image format is configured to png" do
+        let(:image_format) { "png" }
 
-        expect(File.exist?("lily_images/uuid1.png")).to eq(true)
-        expect(File.exist?("lily_images/uuid2.png")).to eq(true)
+        it "generates PNG files with lilypond for all lily code snippets" do
+          handler.execute
+
+          expect(File.exist?("lily_images/uuid1.png")).to eq(true)
+          expect(File.exist?("lily_images/uuid2.png")).to eq(true)
+        end
       end
 
       it "adds the lily images to the site's static file collection" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
         handler.execute
 
-        expect(JekyllLilyPondConverter::SiteManager.instance.site.static_files).to eq([svg1, svg2])
+        expect(site_manager.static_files).to eq(["uuid1.svg", "uuid2.svg"])
       end
     end
 
     context "modifying content" do
       it "replaces lily code snippets with links to generated SVG files" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
-
         expect(handler.execute).to eq(content_with_lily_image_links)
       end
 
-      it "does not affect content with non-lily code snippets" do
-        handler = described_class.new(content_with_ruby_snippet, MockNamingPolicy.new, "svg")
+      context "when content does not have lily code snippets" do
+        let(:content) { content_with_ruby_snippet }
 
-        expect(handler.execute).to eq(content_with_ruby_snippet)
+        it "does not affect content with non-lily code snippets" do
+          expect(handler.execute).to eq(content_with_ruby_snippet)
+        end
       end
     end
   end

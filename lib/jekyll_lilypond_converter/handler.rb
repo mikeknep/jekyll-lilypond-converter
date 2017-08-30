@@ -1,11 +1,11 @@
-require "securerandom"
-
 module JekyllLilyPondConverter
   class Handler
-    def initialize(content, naming_policy, image_format)
+    def initialize(content:, naming_policy:, image_format:, site_manager:, static_file_builder:)
       @content = content
       @naming_policy = naming_policy
       @image_format = image_format
+      @site_manager = site_manager
+      @static_file_builder = static_file_builder
     end
 
     def execute
@@ -19,7 +19,7 @@ module JekyllLilyPondConverter
     end
 
     private
-    attr_reader :content, :naming_policy, :image_format
+    attr_reader :content, :naming_policy, :image_format, :site_manager, :static_file_builder
 
     def write_lily_code_file(lily)
       open(lily.code_filename, 'w') do |code_file|
@@ -34,7 +34,7 @@ module JekyllLilyPondConverter
     end
 
     def add_lily_image_to_site(lily)
-      JekyllLilyPondConverter::SiteManager.instance.add_image(lily.image_filename)
+      site_manager.add_image(static_file_builder, lily.image_filename)
     end
 
     def replace_snippet_with_image_link(lily)
