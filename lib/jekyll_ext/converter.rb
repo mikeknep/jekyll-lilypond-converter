@@ -24,9 +24,10 @@ module Jekyll
       naming_policy = ::JekyllLilyPondConverter::NamingPolicy.new
       image_format = @config["lilypond-image-format"]
       site_manager = ::JekyllLilyPondConverter::SiteManager.instance
+      static_file_builder = StaticFileBuilder
       ensure_valid_image_format(image_format)
 
-      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, image_format, site_manager).execute
+      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, image_format, site_manager, static_file_builder).execute
     end
 
     private

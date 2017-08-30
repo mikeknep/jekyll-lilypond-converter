@@ -23,6 +23,13 @@ class MockJekyllSite < Jekyll::Site
 end
 
 
+class MockStaticFileBuilder
+  def self.build(site, filename)
+    {site: site, filename: filename}
+  end
+end
+
+
 class MockNamingPolicy
   def initialize
     @names = ["uuid1", "uuid2"]
@@ -54,7 +61,7 @@ class MockSiteManager
     @static_files = []
   end
 
-  def add_image(filename)
+  def add_image(builder, filename)
     @static_files << filename
   end
 end

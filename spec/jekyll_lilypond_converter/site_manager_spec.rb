@@ -5,20 +5,15 @@ describe JekyllLilyPondConverter::SiteManager do
   let(:mock_static_file) { double(:mock_static_file) }
   let(:image_filename) { "lily.svg" }
 
-  it "adds a static file to it's static file collection" do
-    manager = described_class.instance
-    manager.site = mock_site
+  describe "#add_image" do
+    it "uses the provided builder to build a file with the given filename and add it to its site's static files" do
+      manager = described_class.instance
+      manager.site = mock_site
 
-    expect(Jekyll::StaticFile).to receive(:new).with(
-      mock_site,
-      mock_site.source,
-      "lily_images",
-      image_filename
-    ).and_return(mock_static_file)
+      manager.add_image(MockStaticFileBuilder, "lily.svg")
 
-    manager.add_image("lily.svg")
-
-    expect(mock_site.static_files).to eq([mock_static_file])
+      expect(mock_site.static_files).to eq([{site: mock_site, filename: "lily.svg"}])
+    end
   end
 
 end

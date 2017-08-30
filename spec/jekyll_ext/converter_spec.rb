@@ -26,7 +26,7 @@ describe Jekyll::LilyPondConverter do
       handler_spy = HandlerSpy.new
 
       allow(JekyllLilyPondConverter::Handler).to receive(:new).
-        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "svg", ::JekyllLilyPondConverter::SiteManager.instance).
+        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "svg", ::JekyllLilyPondConverter::SiteManager.instance, StaticFileBuilder).
         and_return(handler_spy)
 
       converter.convert(content)
@@ -40,7 +40,7 @@ describe Jekyll::LilyPondConverter do
       config = { "lilypond-image-format" => "png" }
 
       allow(JekyllLilyPondConverter::Handler).to receive(:new).
-        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "png", ::JekyllLilyPondConverter::SiteManager.instance).
+        with(content, instance_of(::JekyllLilyPondConverter::NamingPolicy), "png", ::JekyllLilyPondConverter::SiteManager.instance, StaticFileBuilder).
         and_return(handler_spy)
 
       described_class.new(config).convert(content)
