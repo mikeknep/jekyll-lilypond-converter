@@ -1,6 +1,6 @@
 module JekyllLilyPondConverter
   class Handler
-    def initialize(content, naming_policy, image_format, site_manager, static_file_builder)
+    def initialize(content:, naming_policy:, image_format:, site_manager:, static_file_builder:)
       @content = content
       @naming_policy = naming_policy
       @image_format = image_format
