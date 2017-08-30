@@ -1,5 +1,3 @@
-require "securerandom"
-
 module JekyllLilyPondConverter
   class Handler
     def initialize(content, naming_policy, image_format)
