@@ -2,22 +2,15 @@ require "spec_helper"
 
 describe JekyllLilyPondConverter::Handler do
   describe "#execute" do
-    let(:svg1) { double(:svg1) }
-    let(:svg2) { double(:svg2) }
-    let(:mock_jekyll_site) { MockJekyllSite.new }
+    let(:naming_policy) { MockNamingPolicy.new }
+    let(:site_manager) { MockSiteManager.new }
 
-    before(:each) do
-      JekyllLilyPondConverter::SiteManager.instance.site = mock_jekyll_site
-      stub_jekyll_static_file_instantiation("uuid1.svg", svg1)
-      stub_jekyll_static_file_instantiation("uuid2.svg", svg2)
-      `mkdir lily_images/`
-    end
-
+    before(:each) { `mkdir lily_images/` }
     after(:each) { `rm -rf lily_images/` }
 
     context "generating images" do
       it "generates SVG files with lilypond for all lily code snippets" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
+        handler = described_class.new(content_with_lily_snippets, naming_policy, "svg", site_manager)
         handler.execute
 
         expect(File.exist?("lily_images/uuid1.svg")).to eq(true)
@@ -25,9 +18,7 @@ describe JekyllLilyPondConverter::Handler do
       end
 
       it "generates PNG files with lilypond for all lily code snippets" do
-        stub_jekyll_static_file_instantiation("uuid1.png", double(:png1))
-        stub_jekyll_static_file_instantiation("uuid2.png", double(:png2))
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "png")
+        handler = described_class.new(content_with_lily_snippets, naming_policy, "png", site_manager)
         handler.execute
 
         expect(File.exist?("lily_images/uuid1.png")).to eq(true)
@@ -35,22 +26,22 @@ describe JekyllLilyPondConverter::Handler do
       end
 
       it "adds the lily images to the site's static file collection" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
+        handler = described_class.new(content_with_lily_snippets, naming_policy, "svg", site_manager)
         handler.execute
 
-        expect(JekyllLilyPondConverter::SiteManager.instance.site.static_files).to eq([svg1, svg2])
+        expect(site_manager.static_files).to eq(["uuid1.svg", "uuid2.svg"])
       end
     end
 
     context "modifying content" do
       it "replaces lily code snippets with links to generated SVG files" do
-        handler = described_class.new(content_with_lily_snippets, MockNamingPolicy.new, "svg")
+        handler = described_class.new(content_with_lily_snippets, naming_policy, "svg", site_manager)
 
         expect(handler.execute).to eq(content_with_lily_image_links)
       end
 
       it "does not affect content with non-lily code snippets" do
-        handler = described_class.new(content_with_ruby_snippet, MockNamingPolicy.new, "svg")
+        handler = described_class.new(content_with_ruby_snippet, naming_policy, "svg", site_manager)
 
         expect(handler.execute).to eq(content_with_ruby_snippet)
       end

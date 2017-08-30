@@ -23,9 +23,10 @@ module Jekyll
     def convert(content)
       naming_policy = ::JekyllLilyPondConverter::NamingPolicy.new
       image_format = @config["lilypond-image-format"]
+      site_manager = ::JekyllLilyPondConverter::SiteManager.instance
       ensure_valid_image_format(image_format)
 
-      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, image_format).execute
+      ::JekyllLilyPondConverter::Handler.new(content, naming_policy, image_format, site_manager).execute
     end
 
     private

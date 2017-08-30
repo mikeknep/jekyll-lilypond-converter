@@ -47,14 +47,18 @@ class HandlerSpy
 end
 
 
-def stub_jekyll_static_file_instantiation(filename, mock_file)
-  allow(Jekyll::StaticFile).to receive(:new).with(
-    mock_jekyll_site,
-    mock_jekyll_site.source,
-    "lily_images",
-    filename
-  ).and_return(mock_file)
+class MockSiteManager
+  attr_reader :static_files
+
+  def initialize
+    @static_files = []
+  end
+
+  def add_image(filename)
+    @static_files << filename
+  end
 end
+
 
 def content_with_lily_snippets
 <<-EOC
