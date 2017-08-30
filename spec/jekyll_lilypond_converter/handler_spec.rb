@@ -1,5 +1,27 @@
 require "spec_helper"
 
+class MockSiteManager
+  attr_reader :static_files
+
+  def initialize
+    @static_files = []
+  end
+
+  def add_image(builder, filename)
+    @static_files << filename
+  end
+end
+
+class MockNamingPolicy
+  def initialize
+    @names = ["uuid1", "uuid2"]
+  end
+
+  def generate_name
+    @names.shift
+  end
+end
+
 describe JekyllLilyPondConverter::Handler do
   describe "#execute" do
     let(:content) { content_with_lily_snippets }

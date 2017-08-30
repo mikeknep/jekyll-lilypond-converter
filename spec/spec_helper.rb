@@ -1,5 +1,4 @@
 require "rspec"
-require "jekyll"
 
 Dir["./lib/**/*.rb"].each { |file| require file }
 
@@ -10,7 +9,7 @@ RSpec.configure do |config|
 end
 
 
-class MockJekyllSite < Jekyll::Site
+class MockJekyllSite
   attr_accessor :static_files
 
   def initialize(static_files: [])
@@ -26,43 +25,6 @@ end
 class MockStaticFileBuilder
   def self.build(site, filename)
     {site: site, filename: filename}
-  end
-end
-
-
-class MockNamingPolicy
-  def initialize
-    @names = ["uuid1", "uuid2"]
-  end
-
-  def generate_name
-    @names.shift
-  end
-end
-
-
-class HandlerSpy
-  attr_reader :execute_was_called
-
-  def initialize
-    @execute_was_called = false
-  end
-
-  def execute
-    @execute_was_called = true
-  end
-end
-
-
-class MockSiteManager
-  attr_reader :static_files
-
-  def initialize
-    @static_files = []
-  end
-
-  def add_image(builder, filename)
-    @static_files << filename
   end
 end
 

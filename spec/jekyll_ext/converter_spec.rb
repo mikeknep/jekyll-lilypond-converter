@@ -1,5 +1,17 @@
 require "spec_helper"
 
+class HandlerSpy
+  attr_reader :execute_was_called
+
+  def initialize
+    @execute_was_called = false
+  end
+
+  def execute
+    @execute_was_called = true
+  end
+end
+
 describe Jekyll::LilyPondConverter do
   let(:converter) { described_class.new }
 
