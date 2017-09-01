@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     jekyll-lilypond-converter (0.1.0)
-      jekyll (>= 3.0)
+      jekyll (~> 3.0)
 
 GEM
   remote: https://rubygems.org/
