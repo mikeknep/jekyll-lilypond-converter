@@ -21,8 +21,6 @@ module Jekyll
     end
 
     def convert(content)
-      ensure_valid_image_format(image_format)
-
       ::JekyllLilyPondConverter::Handler.new(
         content: content,
         naming_policy: ::JekyllLilyPondConverter::NamingPolicy.new,
@@ -36,12 +34,6 @@ module Jekyll
 
     def image_format
       @config["lilypond-image-format"]
-    end
-
-    def ensure_valid_image_format(image_format)
-      unless ["svg", "png"].include?(image_format)
-        raise ::JekyllLilyPondConverter::INVALID_IMAGE_FORMAT_ERROR
-      end
     end
   end
 end

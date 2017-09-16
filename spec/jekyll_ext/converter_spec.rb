@@ -69,13 +69,5 @@ describe Jekyll::LilyPondConverter do
 
       expect(handler_spy.execute_was_called).to eq(true)
     end
-
-    it "does not accept image formats other than png and svg" do
-      config = { "lilypond-image-format" => "jpeg" }
-
-      expect {
-        described_class.new(config).convert("abc")
-      }.to raise_error(::JekyllLilyPondConverter::INVALID_IMAGE_FORMAT_ERROR)
-    end
   end
 end
