@@ -9,6 +9,8 @@ module JekyllLilyPondConverter
     end
 
     def execute
+      ensure_valid_image_format
+
       lilies.each do |lily|
         write_lily_code_file(lily)
         generate_lily_image(lily)
@@ -20,6 +22,12 @@ module JekyllLilyPondConverter
 
     private
     attr_reader :content, :naming_policy, :image_format, :site_manager, :static_file_builder
+
+    def ensure_valid_image_format
+      unless ["svg", "png"].include?(image_format)
+        raise INVALID_IMAGE_FORMAT_ERROR
+      end
+    end
 
     def write_lily_code_file(lily)
       open(lily.code_filename, 'w') do |code_file|

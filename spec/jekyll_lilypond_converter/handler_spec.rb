@@ -80,5 +80,15 @@ describe JekyllLilyPondConverter::Handler do
         end
       end
     end
+
+    context "when the image format is invalid" do
+      let(:image_format) { "jpeg" }
+
+      it "does not accept image formats other than png and svg" do
+        expect {
+          handler.execute
+        }.to raise_error(::JekyllLilyPondConverter::INVALID_IMAGE_FORMAT_ERROR)
+      end
+    end
   end
 end
