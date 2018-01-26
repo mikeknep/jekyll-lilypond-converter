@@ -13,7 +13,7 @@ module Jekyll
     end
 
     def matches(ext)
-      /md|markdown/.match?(ext)
+      /md|markdown/.match(ext)
     end
 
     def output_ext(ext)
