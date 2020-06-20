@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ["lib", "lib/jekyll_ext/", "lib/jekyll_lilypond_converter/"]
 
-  spec.add_dependency "jekyll", "~> 3.0"
+  spec.add_dependency "jekyll", ">= 3", "< 5"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rspec", "~> 3.6"
